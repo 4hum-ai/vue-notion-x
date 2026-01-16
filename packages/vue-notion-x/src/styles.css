@@ -3102,3 +3102,38 @@ svg.notion-page-icon {
   font-size: 0.875rem;
   color: var(--fg-color-2);
 }
+
+.notion-page-mention {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: rgba(55, 53, 47, 0.08); /* light gray background */
+  color: var(--fg-color);
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+.dark-mode .notion-page-mention {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.notion-page-mention:hover {
+  background: rgba(55, 53, 47, 0.16);
+}
+
+.dark-mode .notion-page-mention:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.notion-page-mention-icon {
+  margin-right: 4px;
+  width: 1.1em;
+  height: 1.1em;
+  display: inline-block;
+  fill: currentColor;
+}
+
+.notion-page-mention-text {
+  border-bottom: 1px solid rgba(55, 53, 47, 0.4);
+}

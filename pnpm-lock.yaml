@@ -128,15 +128,15 @@ importers:
       '@4hum-ai/notion-utils':
         specifier: workspace:*
         version: link:../../packages/notion-utils
+      '@4hum-ai/vue-notion-x':
+        specifier: workspace:*
+        version: link:../../packages/vue-notion-x
       nuxt:
         specifier: ^3.8.2
         version: 3.20.2(@parcel/watcher@2.5.4)(@types/node@22.19.7)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(magicast@0.5.1)(meow@13.2.0)(optionator@0.9.4)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.7)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@2.2.12(typescript@5.9.3))(yaml@2.8.2)
       vue:
         specifier: 'catalog:'
         version: 3.5.26(typescript@5.9.3)
-      vue-notion-x:
-        specifier: workspace:*
-        version: link:../../packages/vue-notion-x
     devDependencies:
       '@types/node':
         specifier: 'catalog:'

@@ -12,7 +12,7 @@
   "dependencies": {
     "vue": "catalog:",
     "nuxt": "^3.8.2",
-    "vue-notion-x": "workspace:*",
+    "@4hum-ai/vue-notion-x": "workspace:*",
     "@4hum-ai/notion-client": "workspace:*",
     "@4hum-ai/notion-types": "workspace:*",
     "@4hum-ai/notion-utils": "workspace:*"

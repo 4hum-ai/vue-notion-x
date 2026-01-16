@@ -1,4 +1,4 @@
-import { NotionAPI } from 'notion-client'
+import { NotionAPI } from '@4hum-ai/notion-client'
 
 export default defineEventHandler(async event => {
   const pageId = getRouterParam(event, 'pageId')

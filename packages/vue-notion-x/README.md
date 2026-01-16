@@ -1,4 +1,4 @@
-# vue-notion-x
+# @4hum-ai/vue-notion-x
 
 > Fast and accurate Vue renderer for Notion. TS batteries included. ⚡️
 
@@ -18,10 +18,10 @@
 
 ```bash
 # using pnpm
-pnpm add vue-notion-x notion-client notion-types notion-utils
+pnpm add @4hum-ai/vue-notion-x @4hum-ai/notion-client @4hum-ai/notion-types @4hum-ai/notion-utils
 
 # using npm
-npm install vue-notion-x notion-client notion-types notion-utils
+npm install @4hum-ai/vue-notion-x @4hum-ai/notion-client @4hum-ai/notion-types @4hum-ai/notion-utils
 ```
 
 ## Usage
@@ -30,8 +30,8 @@ npm install vue-notion-x notion-client notion-types notion-utils
 
 ```vue
 <script setup lang="ts">
-import { NotionRenderer } from 'vue-notion-x'
-import { NotionAPI } from 'notion-client'
+import { NotionRenderer } from '@4hum-ai/vue-notion-x'
+import { NotionAPI } from '@4hum-ai/notion-client'
 
 // Fetch data on the server (e.g., in Nuxt useAsyncData or getServerSideProps)
 const api = new NotionAPI()
@@ -44,9 +44,9 @@ const recordMap = await api.getPage('your-page-id')
 
 <style>
 /* Import the styles */
-@import 'vue-notion-x/dist/style.css';
+@import '@4hum-ai/vue-notion-x/dist/style.css';
 /* Or if using the source directly */
-/* @import 'vue-notion-x/src/styles.css'; */
+/* @import '@4hum-ai/vue-notion-x/src/styles.css'; */
 </style>
 ```
 
@@ -56,7 +56,7 @@ To enable the search functionality, pass the `searchNotion` prop to the renderer
 
 ```vue
 <script setup lang="ts">
-import { NotionRenderer } from 'vue-notion-x'
+import { NotionRenderer } from '@4hum-ai/vue-notion-x'
 
 // Define your search function (server-side wrapper)
 const searchNotion = async params => {
@@ -83,7 +83,7 @@ You can override any default component by passing a `components` map:
 
 ```vue
 <script setup lang="ts">
-import { NotionRenderer } from 'vue-notion-x'
+import { NotionRenderer } from '@4hum-ai/vue-notion-x'
 import MyCustomLink from './MyCustomLink.vue'
 
 const customComponents = {
@@ -98,12 +98,12 @@ const customComponents = {
 
 ## Styling
 
-`vue-notion-x` comes with a comprehensive CSS file that closely mimics Notion's default styling.
+`@4hum-ai/vue-notion-x` comes with a comprehensive CSS file that closely mimics Notion's default styling.
 
 You can import it in your main CSS file or component:
 
 ```css
-@import 'vue-notion-x/dist/style.css';
+@import '@4hum-ai/vue-notion-x/dist/style.css';
 ```
 
 Classes are prefixed with `.notion-` to avoid conflicts. You can easily override variables for theming:

@@ -74,8 +74,12 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
 
 <template>
   <!-- Page -->
+  <!-- Page (Level 0) or Collection View Page -->
   <main
-    v-if="block.type === 'page' || block.type === 'collection_view_page'"
+    v-if="
+      level === 0 &&
+      (block.type === 'page' || block.type === 'collection_view_page')
+    "
     :class="
       cs(
         'notion',
@@ -134,21 +138,36 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
         </div>
       </div>
     </div>
-    <template
-      v-if="
-        block.type === 'collection_view_page' ||
-        (block.type === 'page' && block.parent_table === 'collection')
-      "
-    >
-      <NotionCollection :block="block as any" />
-    </template>
+    <template v-else>
+      <template
+        v-if="
+          block.type === 'collection_view_page' ||
+          (block.type === 'page' && block.parent_table === 'collection')
+        "
+      >
+        <NotionCollection :block="block as any" />
+      </template>
 
-    <template v-if="block.type !== 'collection_view_page'">
-      <div class="notion-page-content">
-        <slot />
-      </div>
+      <template v-if="block.type !== 'collection_view_page'">
+        <div class="notion-page-content">
+          <slot />
+        </div>
+      </template>
     </template>
   </main>
+
+  <!-- Nested Page (Link) -->
+  <component
+    :is="components.PageLink"
+    v-else-if="block.type === 'page'"
+    :class="cs('notion-page-link', blockColor, blockId)"
+    :href="mapPageUrl(block.id)"
+  >
+    <PageIcon :block="block" />
+    <div class="notion-page-link-text">
+      <Text :value="title" :block="block" />
+    </div>
+  </component>
 
   <!-- Header Blocks -->
   <h1

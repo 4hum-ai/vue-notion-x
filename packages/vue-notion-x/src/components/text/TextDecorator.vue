@@ -15,9 +15,53 @@ const decorators = computed(() => props.content[1] || [])
 // For complex nesting, render function is better.
 // But Notion decorations are array of modifiers.
 
+import { useNotionContext } from '../../context'
+import PageIcon from '../PageIcon.vue'
+import { getTextContent, uuidToId, idToUuid } from '../../utils'
+
+const { recordMap, mapPageUrl, components } = useNotionContext()
+
 const formattedElement = computed(() => {
   const t = text.value
   const d = decorators.value
+
+  // Handle Page Mention (p) specifically because it replaces the text content
+  const pageMention = d?.find((dec: any) => dec[0] === 'p')
+  if (pageMention) {
+    const pageId = pageMention[1] as string
+    const block =
+      recordMap.block[pageId]?.value ||
+      recordMap.block[uuidToId(pageId)]?.value ||
+      recordMap.block[idToUuid(pageId)]?.value
+
+    if (block) {
+      const title = getTextContent(block.properties?.title) || 'Untitled'
+      const href = mapPageUrl(pageId)
+
+      return h(
+        components.PageLink,
+        {
+          class: 'notion-link notion-page-mention',
+          href: href
+        },
+        () => [
+          h(PageIcon, { block, class: 'notion-page-mention-icon' }),
+          h('span', { class: 'notion-page-mention-text' }, title)
+        ]
+      )
+    } else {
+      // Fallback for missing block
+      const href = mapPageUrl(pageId)
+      return h(
+        components.PageLink,
+        {
+          class: 'notion-link notion-page-mention',
+          href: href
+        },
+        () => [h('span', { class: 'notion-page-mention-text' }, 'Page')]
+      )
+    }
+  }
 
   if (!d?.length) return t
 
@@ -37,17 +81,28 @@ const formattedElement = computed(() => {
         break
       case 'a':
         const url = decoration[1]
-        // TODO: Handle internal links using mapPageUrl
-        element = h(
-          'a',
-          {
-            class: 'notion-link',
-            href: url,
-            target: '_blank',
-            rel: 'noopener noreferrer'
-          },
-          element
-        )
+        // TODO: Is this an internal link?
+        if (url.startsWith('/')) {
+          element = h(
+            components.PageLink,
+            {
+              class: 'notion-link',
+              href: url
+            },
+            element
+          )
+        } else {
+          element = h(
+            'a',
+            {
+              class: 'notion-link',
+              href: url,
+              target: '_blank',
+              rel: 'noopener noreferrer'
+            },
+            element
+          )
+        }
         break
       case 'c': // inline code
         element = h('code', { class: 'notion-inline-code' }, element)

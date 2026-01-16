@@ -5,6 +5,7 @@ export {
   formatNotionDateTime,
   isUrl,
   uuidToId,
+  idToUuid,
   getTextContent
 } from '@4hum-ai/notion-utils'
 

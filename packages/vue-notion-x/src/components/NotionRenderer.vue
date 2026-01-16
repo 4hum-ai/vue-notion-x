@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, toRefs, onMounted } from 'vue'
-import type { ExtendedRecordMap } from '@4hum-ai/notion-types'
+import type { ExtendedRecordMap, Block } from '@4hum-ai/notion-types'
+import { defaultMapImageUrl } from '@4hum-ai/notion-utils'
 import { provideNotionContext } from '../context'
 import type {
   MapPageUrlFn,
@@ -41,13 +42,10 @@ const props = withDefaults(
     fullPage: false,
     darkMode: false,
     previewImages: false,
-    showTableOfContents: false,
-    minTableOfContentsItems: 3,
-    isImageZoomable: true,
     defaultPageCoverPosition: 0.5,
     mapPageUrl: (pageId: string) => `/${pageId}`,
-
-    mapImageUrl: (url, block) => url
+    mapImageUrl: (url: string, block: Block) =>
+      defaultMapImageUrl(url, block) || url
   }
 )
 
@@ -87,10 +85,10 @@ provideNotionContext({
   darkMode: props.darkMode,
   previewImages: props.previewImages,
   showTableOfContents: props.showTableOfContents,
-  minTableOfContentsItems: props.minTableOfContentsItems,
+  minTableOfContentsItems: props.minTableOfContentsItems || 3,
   defaultPageIcon: props.defaultPageIcon,
   defaultPageCover: props.defaultPageCover,
-  defaultPageCoverPosition: props.defaultPageCoverPosition,
+  defaultPageCoverPosition: props.defaultPageCoverPosition || 0.5,
   forceCustomImages: !!props.components?.Image,
   zoom: zoom
 })

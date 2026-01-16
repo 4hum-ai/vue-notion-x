@@ -1,11 +1,19 @@
 {
-  "name": "vue-notion-x",
+  "name": "@4hum-ai/vue-notion-x",
   "version": "0.1.0",
   "type": "module",
   "description": "Fast and accurate Vue renderer for Notion.",
   "repository": "4hum-ai/vue-notion-x",
   "author": "Vue Notion X Contributors",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/4hum-ai/vue-notion-x/issues"
+  },
+  "homepage": "https://github.com/4hum-ai/vue-notion-x#readme",
   "main": "./build/index.js",
   "module": "./build/index.js",
   "types": "./build/index.d.ts",
