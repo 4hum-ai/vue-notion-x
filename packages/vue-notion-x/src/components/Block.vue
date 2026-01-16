@@ -9,6 +9,9 @@ import Asset from './Asset.vue'
 import NotionCode from './Code.vue'
 import NotionEquation from './Equation.vue'
 import NotionCollection from './Collection.vue'
+import NotionTableOfContents from './TableOfContents.vue'
+import NotionBookmark from './Bookmark.vue'
+import NotionBreadcrumbs from './Breadcrumbs.vue'
 
 const props = defineProps<{
   block: Block
@@ -248,6 +251,18 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
 
   <!-- Code -->
   <NotionCode v-else-if="block.type === 'code'" :block="block" />
+
+  <!-- Breadcrumbs -->
+  <NotionBreadcrumbs v-else-if="block.type === 'breadcrumb'" :block="block" />
+
+  <!-- Bookmark -->
+  <NotionBookmark v-else-if="block.type === 'bookmark'" :block="block" />
+
+  <!-- Table Of Contents -->
+  <NotionTableOfContents
+    v-else-if="block.type === 'table_of_contents'"
+    :block="block"
+  />
 
   <!-- Equation -->
   <NotionEquation v-else-if="block.type === 'equation'" :block="block" />

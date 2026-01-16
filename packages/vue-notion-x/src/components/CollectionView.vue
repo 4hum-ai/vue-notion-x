@@ -22,8 +22,12 @@ const props = defineProps<{
 const CollectionViewGallery = defineAsyncComponent(
   () => import('./CollectionViewGallery.vue')
 )
-// const CollectionViewTable = defineAsyncComponent(() => import('./CollectionViewTable.vue'))
-// const CollectionViewList = defineAsyncComponent(() => import('./CollectionViewList.vue'))
+const CollectionViewList = defineAsyncComponent(
+  () => import('./CollectionViewList.vue')
+)
+const CollectionViewTable = defineAsyncComponent(
+  () => import('./CollectionViewTable.vue')
+)
 // const CollectionViewBoard = defineAsyncComponent(() => import('./CollectionViewBoard.vue'))
 </script>
 
@@ -31,6 +35,18 @@ const CollectionViewGallery = defineAsyncComponent(
   <div class="notion-collection-view">
     <CollectionViewGallery
       v-if="collectionView.type === 'gallery'"
+      :collection="collection"
+      :collection-view="collectionView"
+      :collection-data="collectionData"
+    />
+    <CollectionViewList
+      v-else-if="collectionView.type === 'list'"
+      :collection="collection"
+      :collection-view="collectionView"
+      :collection-data="collectionData"
+    />
+    <CollectionViewTable
+      v-else-if="collectionView.type === 'table'"
       :collection="collection"
       :collection-view="collectionView"
       :collection-data="collectionData"

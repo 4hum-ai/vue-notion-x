@@ -14,6 +14,10 @@ declare module 'notion-utils' {
     recordMap: any
   ): string | null
   export function getBlockParentPage(block: any, recordMap: any): any
+  export function getPageBreadcrumbs(
+    recordMap: any,
+    activePageId: string
+  ): any[] | null
 }
 
 declare module 'notion-client' {
