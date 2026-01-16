@@ -13,7 +13,11 @@ declare module 'notion-utils' {
     block: any,
     recordMap: any
   ): string | null
-  export function getBlockParentPage(block: any, recordMap: any): any
+  export function getBlockParentPage(
+    block: any,
+    recordMap: any,
+    options?: { inclusive?: boolean }
+  ): any
   export function getPageBreadcrumbs(
     recordMap: any,
     activePageId: string
