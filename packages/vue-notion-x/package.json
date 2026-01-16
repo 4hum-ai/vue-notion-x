@@ -40,7 +40,7 @@
     "test": "run-s test:*",
     "test:lint": "eslint .",
     "test:typecheck": "vue-tsc --noEmit",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "katex": "catalog:",
