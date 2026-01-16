@@ -284,6 +284,17 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
     :block="block"
   />
 
+  <!-- Reference / Synced Block -->
+  <div
+    v-else-if="
+      block.type === 'transclusion_container' ||
+      block.type === 'transclusion_reference'
+    "
+    :class="cs('notion-sync-block', blockId)"
+  >
+    <slot />
+  </div>
+
   <!-- Equation -->
   <NotionEquation v-else-if="block.type === 'equation'" :block="block" />
 

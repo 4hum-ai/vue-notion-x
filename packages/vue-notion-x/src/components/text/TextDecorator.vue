@@ -25,6 +25,34 @@ const formattedElement = computed(() => {
   const t = text.value
   const d = decorators.value
 
+  // Handle External Object Instance (eoi)
+  const eoi = d?.find((dec: any) => dec[0] === 'eoi')
+  if (eoi) {
+    const blockId = eoi[1] as string
+    const block =
+      recordMap.block[blockId]?.value ||
+      recordMap.block[uuidToId(blockId)]?.value ||
+      recordMap.block[idToUuid(blockId)]?.value
+
+    if (block && block.type === 'external_object_instance') {
+      const url = block.format?.uri || block.format?.original_url
+      const attributes = block.format?.attributes || []
+      const titleAttr = attributes.find((a: any) => a.id === 'title')
+      const title = titleAttr?.values?.[0] || url
+
+      return h(
+        'a',
+        {
+          class: 'notion-link notion-external-object',
+          href: url,
+          target: '_blank',
+          rel: 'noopener noreferrer'
+        },
+        title || 'Original Link'
+      )
+    }
+  }
+
   // Handle Page Mention (p) specifically because it replaces the text content
   const pageMention = d?.find((dec: any) => dec[0] === 'p')
   if (pageMention) {

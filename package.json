@@ -55,5 +55,8 @@
     "*.{ts,vue}": [
       "prettier --ignore-unknown --write"
     ]
+  },
+  "dependencies": {
+    "notion-client": "^7.7.3"
   }
 }
