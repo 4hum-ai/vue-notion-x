@@ -33,6 +33,9 @@ export default [
   },
   // Common rules for all files
   {
+    plugins: {
+      '@typescript-eslint': tseslint.plugin
+    },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
