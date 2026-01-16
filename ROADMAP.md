@@ -81,7 +81,7 @@
 - [x] Implement Table of Contents
 - [x] Implement Breadcrumbs
 - [x] Implement Bookmark component
-- [ ] Implement Modal component
+- [x] Implement Modal component
 - [x] Add Medium Zoom support for images (Integrated in LazyImage, logic in NotionRenderer)
 
 ### Phase 5: Documentation
@@ -109,10 +109,11 @@
 
 **Immediate Actions Required:**
 
-1. **Implement Modal component**
-   - Create `Modal.vue` for expanded card views or other overlays.
-2. **Phase 5: Documentation**
-   - Start writing READMEs for the monorepo and packages.
+1. **Implement Search functionality**
+   - Create `SearchDialog.vue` for full-text search.
+   - Integrate with `notion-client` search API.
+2. **Implement Collection Groups**
+   - Add support for grouping in database views.
 3. **Refine Styling**
    - Ensure all recently added components have polished CSS.
 
