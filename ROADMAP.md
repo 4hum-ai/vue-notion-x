@@ -83,6 +83,8 @@
 - [x] Implement Bookmark component
 - [x] Implement Modal component
 - [x] Add Medium Zoom support for images (Integrated in LazyImage, logic in NotionRenderer)
+- [x] Implement Search functionality
+- [x] Implement Collection Groups
 
 ### Phase 5: Documentation
 
@@ -107,15 +109,12 @@
 
 ## 🎯 Next Steps (For AI Agent)
 
-**Immediate Actions Required:**
-
-1. **Implement Search functionality**
-   - Create `SearchDialog.vue` for full-text search.
-   - Integrate with `notion-client` search API.
-2. **Implement Collection Groups**
-   - Add support for grouping in database views.
-3. **Refine Styling**
+1. **Refine Styling**
    - Ensure all recently added components have polished CSS.
+2. **Write Documentation**
+   - Complete READMEs for the monorepo and packages.
+3. **Setup Publication**
+   - Prepare for the first alpha release on npm.
 
 ---
 

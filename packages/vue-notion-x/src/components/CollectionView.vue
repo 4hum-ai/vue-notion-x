@@ -16,6 +16,8 @@ const props = defineProps<{
   collection: Collection
   collectionView: CollectionView
   collectionData: CollectionQueryResult
+  width?: number
+  padding?: number
 }>()
 
 // Lazy load specific view components
@@ -40,24 +42,32 @@ const CollectionViewBoard = defineAsyncComponent(
       :collection="collection"
       :collection-view="collectionView"
       :collection-data="collectionData"
+      :width="width"
+      :padding="padding"
     />
     <CollectionViewList
       v-else-if="collectionView.type === 'list'"
       :collection="collection"
       :collection-view="collectionView"
       :collection-data="collectionData"
+      :width="width"
+      :padding="padding"
     />
     <CollectionViewTable
       v-else-if="collectionView.type === 'table'"
       :collection="collection"
       :collection-view="collectionView"
       :collection-data="collectionData"
+      :width="width"
+      :padding="padding"
     />
     <CollectionViewBoard
       v-else-if="collectionView.type === 'board'"
       :collection="collection"
       :collection-view="collectionView"
       :collection-data="collectionData"
+      :width="width"
+      :padding="padding"
     />
     <div v-else class="notion-collection-view-fallback">
       Unsupported collection view: {{ collectionView.type }}

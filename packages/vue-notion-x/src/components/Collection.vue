@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import type {
   CollectionViewBlock,
   CollectionViewPageBlock,
@@ -20,7 +20,6 @@ import {
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import PageIcon from './PageIcon.vue'
-// We'll lazy load or import the actual views
 import CollectionViewRenderer from './CollectionView.vue'
 
 const props = defineProps<{
@@ -58,6 +57,51 @@ const showTitle = computed(
     collectionView.value?.format?.hide_linked_collection_name !== true &&
     title.value
 )
+
+const windowWidth = ref(
+  typeof window !== 'undefined' ? window.innerWidth : 1024
+)
+
+const onResize = () => {
+  windowWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  window.addEventListener('resize', onResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', onResize)
+})
+
+const layout = computed(() => {
+  const parentPage = getBlockParentPage(props.block, recordMap)
+  const isFullWidth = parentPage?.format?.page_full_width === true
+
+  if (
+    collectionView.value?.type !== 'table' &&
+    collectionView.value?.type !== 'board'
+  ) {
+    return { width: 0, padding: 0 }
+  }
+
+  const width = windowWidth.value
+  const maxNotionBodyWidth = 708
+  let notionBodyWidth = maxNotionBodyWidth
+
+  if (isFullWidth) {
+    notionBodyWidth = Math.trunc(width - 2 * Math.min(96, width * 0.08))
+  } else {
+    notionBodyWidth =
+      width < maxNotionBodyWidth
+        ? Math.trunc(width - width * 0.02)
+        : maxNotionBodyWidth
+  }
+
+  const padding = Math.max(0, Math.trunc((width - notionBodyWidth) / 2))
+
+  return { width, padding }
+})
 
 const onChangeView = (viewId: string) => {
   activeViewId.value = viewId
@@ -111,6 +155,8 @@ const onChangeView = (viewId: string) => {
         :collection="collection"
         :collectionView="collectionView"
         :collectionData="collectionData"
+        :width="layout.width"
+        :padding="layout.padding"
       />
     </div>
   </div>
