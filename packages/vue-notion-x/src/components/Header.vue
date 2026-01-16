@@ -78,18 +78,34 @@ onUnmounted(() => {
         </template>
       </div>
 
-      <div
-        v-if="searchNotion"
-        role="button"
-        class="breadcrumb button notion-search-button"
-        @click="onOpenSearch"
-      >
-        <svg class="searchIcon" viewBox="0 0 24 24">
-          <path
-            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-          />
-        </svg>
-        <span class="title">Search</span>
+      <div class="notion-nav-header-right">
+        <div
+          v-if="searchNotion"
+          role="button"
+          class="notion-nav-button notion-search-button"
+          @click="onOpenSearch"
+        >
+          <svg
+            aria-hidden="true"
+            role="graphics-symbol"
+            viewBox="0 0 20 20"
+            class="searchIcon"
+            style="
+              width: 22px;
+              height: 22px;
+              display: block;
+              fill: inherit;
+              flex-shrink: 0;
+              color: inherit;
+            "
+          >
+            <path
+              d="M8.875 2.625a6.25 6.25 0 1 0 3.955 11.09l3.983 3.982a.625.625 0 1 0 .884-.884l-3.983-3.982a6.25 6.25 0 0 0-4.84-10.205m-5 6.25a5 5 0 1 1 10 0 5 5 0 0 1-10 0"
+            ></path>
+          </svg>
+        </div>
+        <!-- Slot for other header actions (Share, Menu, Custom CTA) -->
+        <slot name="header-right" />
       </div>
 
       <SearchDialog

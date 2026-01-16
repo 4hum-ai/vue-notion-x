@@ -12,6 +12,7 @@ import NotionCollection from './Collection.vue'
 import NotionTableOfContents from './TableOfContents.vue'
 import NotionBookmark from './Bookmark.vue'
 import NotionBreadcrumbs from './Breadcrumbs.vue'
+import ExternalObjectInstance from './ExternalObjectInstance.vue'
 
 const props = defineProps<{
   block: Block
@@ -83,7 +84,7 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
     :class="
       cs(
         'notion',
-        'notion-page',
+        'notion-app',
         darkMode ? 'dark-mode' : 'light-mode',
         blockId,
         className,
@@ -348,6 +349,13 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
       (block.type as string) === 'collection_view_page'
     "
     :block="block as any"
+  />
+
+  <!-- External Object Instance (GitHub, etc.) -->
+  <ExternalObjectInstance
+    v-else-if="block.type === 'external_object_instance'"
+    :block="block"
+    :class="blockId"
   />
 
   <!-- Default Fallback -->

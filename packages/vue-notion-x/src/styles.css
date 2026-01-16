@@ -1,7 +1,8 @@
 :root {
-  --notion-font: ui-sans-serif, system-ui, apple-system, BlinkMacSystemFont,
-    'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif,
-    'Segoe UI Emoji', 'Segoe UI Symbol';
+  --notion-font:
+    ui-sans-serif, system-ui, apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji',
+    'Segoe UI Symbol';
   --fg-color: rgb(55, 53, 47);
   --fg-color-0: rgba(55, 53, 47, 0.09);
   --fg-color-1: rgba(55, 53, 47, 0.16);
@@ -493,7 +494,7 @@
   max-width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
-  width:100%;
+  width: 100%;
 }
 
 .notion-h1 {
@@ -634,22 +635,19 @@ details.notion-toggle .notion-h {
 .notion-page-icon-hero {
   position: absolute;
   top: 0;
-  left: 50%;
+  left: 0;
   display: flex;
   flex-direction: row;
-  justify-content: center;
 }
 
 .notion-page-icon-hero.notion-page-icon-image {
   width: 124px;
   height: 124px;
-  margin-left: -62px;
 }
 
 .notion-page-icon-hero.notion-page-icon-span {
   height: 78px;
   width: 78px;
-  margin-left: -39px;
 }
 
 .notion-page-icon-hero .notion-page-icon {
@@ -668,7 +666,6 @@ details.notion-toggle .notion-h {
 .notion-page-icon-hero.notion-page-icon-span .notion-page-icon {
   font-size: 78px;
   line-height: 1.1;
-  margin-left: 0;
   color: var(--fg-color-icon);
 }
 
@@ -686,8 +683,9 @@ details.notion-toggle .notion-h {
 }
 
 .notion-page-icon {
-  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', NotoColorEmoji,
-    'Noto Color Emoji', 'Segoe UI Symbol', 'Android Emoji', EmojiSymbols;
+  font-family:
+    'Apple Color Emoji', 'Segoe UI Emoji', NotoColorEmoji, 'Noto Color Emoji',
+    'Segoe UI Symbol', 'Android Emoji', EmojiSymbols;
   font-size: 1.1em;
   fill: var(--fg-color-6);
   color: var(--fg-color-icon);
@@ -836,8 +834,8 @@ svg.notion-page-icon {
   background: var(--bg-color-2);
   border-radius: 3px;
   font-size: 85%;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
-    monospace;
+  font-family:
+    'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 .notion-inline-underscore {
@@ -937,8 +935,8 @@ svg.notion-page-icon {
   box-sizing: border-box;
   overflow: auto;
   background: var(--bg-color-1);
-  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier,
-    monospace;
+  font-family:
+    SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 .notion-code-copy {
@@ -3000,7 +2998,7 @@ svg.notion-page-icon {
 .notion-link-mention {
   position: relative;
   display: inline-flex;
-  align-items: center; 
+  align-items: center;
   vertical-align: middle;
 }
 
@@ -3042,8 +3040,8 @@ svg.notion-page-icon {
 }
 
 .notion-link-mention-card {
-  width: 18rem; 
-  height: 15rem; 
+  width: 18rem;
+  height: 15rem;
   background: var(--bg-color);
   border-radius: 0.75rem;
   border: 1px solid rgba(27, 31, 36, 0.15);
@@ -3136,4 +3134,65 @@ svg.notion-page-icon {
 
 .notion-page-mention-text {
   border-bottom: 1px solid rgba(55, 53, 47, 0.4);
+}
+
+.notion-nav-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* matching space between icons */
+}
+
+.notion-nav-button {
+  user-select: none;
+  transition: background 20ms ease-in;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--fg-color);
+  flex-shrink: 0;
+}
+
+.notion-nav-button:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+.dark-mode .notion-nav-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.notion-nav-button .searchIcon {
+  width: 22px;
+  height: 22px;
+  display: block;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Specific styling to match the reference text button if user adds it via slot */
+.notion-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding-inline: 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  flex-shrink: 0;
+  background: #eb5757; /* Approximate red */
+  color: white;
+  transition: background 0.1s ease-in-out;
+  cursor: pointer;
+}
+.notion-nav-cta:hover {
+  background: #df4c4c;
 }
