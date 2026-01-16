@@ -68,7 +68,6 @@ let zoom: Zoom | null = null
 if (props.isImageZoomable && typeof window !== 'undefined') {
   zoom = mediumZoom({
     background: 'rgba(0, 0, 0, 0.8)',
-    minZoomScale: 2.0,
     margin: 24
   })
 }
@@ -87,7 +86,9 @@ provideNotionContext({
   minTableOfContentsItems: props.minTableOfContentsItems,
   defaultPageIcon: props.defaultPageIcon,
   defaultPageCover: props.defaultPageCover,
-  defaultPageCoverPosition: props.defaultPageCoverPosition
+  defaultPageCoverPosition: props.defaultPageCoverPosition,
+  forceCustomImages: !!props.components?.Image,
+  zoom: zoom
 })
 </script>
 

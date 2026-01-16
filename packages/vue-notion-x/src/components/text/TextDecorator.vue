@@ -66,5 +66,8 @@ const formattedElement = computed(() => {
 </script>
 
 <template>
-  <component :is="formattedElement" />
+  <template v-if="typeof formattedElement === 'string'">
+    {{ formattedElement }}
+  </template>
+  <component :is="formattedElement" v-else />
 </template>

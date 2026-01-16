@@ -25,9 +25,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --clean --sourcemap --target es2018 --external vue && cp src/styles.css build/styles.css",
-    "dev": "tsup --watch",
-    "watch": "tsup --watch --silent --onSuccess 'echo build successful'",
+    "build": "vite build && cp src/styles.css build/styles.css",
+    "dev": "vite build --watch",
+    "watch": "vite build --watch",
     "clean": "del build",
     "test": "run-s test:*",
     "test:lint": "eslint .",

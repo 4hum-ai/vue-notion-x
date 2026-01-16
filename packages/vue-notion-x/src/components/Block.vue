@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Block } from 'notion-types'
+import type { Block, BaseContentBlock, PageBlock } from 'notion-types'
 import { useNotionContext } from '../context'
 import { cs, uuidToId, getTextContent } from '../utils'
 import Text from './text/Text.vue'
-import PageLink from './text/PageLink.vue'
+import PageIcon from './PageIcon.vue'
+import Asset from './Asset.vue'
+import NotionCode from './Code.vue'
+import NotionEquation from './Equation.vue'
 
 const props = defineProps<{
   block: Block
@@ -13,7 +16,8 @@ const props = defineProps<{
   hideBlockId?: boolean
 }>()
 
-const { components, mapPageUrl, fullPage, darkMode } = useNotionContext()
+const { components, mapPageUrl, mapImageUrl, fullPage, darkMode, recordMap } =
+  useNotionContext()
 
 const blockId = computed(() =>
   props.hideBlockId
@@ -28,65 +32,117 @@ const blockColor = computed(() => {
 })
 
 const title = computed(() => props.block.properties?.title)
+const isChecked = computed(
+  () => props.block.properties?.checked?.[0]?.[0] === 'Yes'
+)
+const format = computed(() => (props.block.format || {}) as any)
+
+// Page Cover logic
+const pageCover = computed(() => {
+  if (format.value?.page_cover) {
+    return mapImageUrl(format.value.page_cover, props.block)
+  }
+  return null
+})
+
+const pageCoverObjectPosition = computed(() => {
+  const coverPosition = (1 - (format.value?.page_cover_position || 0.5)) * 100
+  return `center ${coverPosition}%`
+})
+
+const columnStyle = computed(() => {
+  if (props.block.type === 'column' && format.value?.column_ratio) {
+    return { width: `calc(${format.value.column_ratio * 100}% - 16px)` }
+  }
+  return {}
+})
+
+const collectionName = computed(() => {
+  const collectionId = (props.block as any).collection_id
+  if (collectionId && recordMap.collection[collectionId]) {
+    return getTextContent(recordMap.collection[collectionId].value?.name)
+  }
+  return 'Untitled'
+})
+
+const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
 </script>
 
 <template>
   <!-- Page -->
   <main
-    v-if="block.type === 'page'"
+    v-if="block.type === 'page' || block.type === 'collection_view_page'"
     :class="
       cs(
         'notion',
         'notion-page',
         darkMode ? 'dark-mode' : 'light-mode',
         blockId,
-        className
+        className,
+        format.page_full_width && 'notion-full-width',
+        format.page_small_text && 'notion-small-text'
       )
     "
   >
     <div v-if="fullPage" class="notion-frame">
-      <!-- TODO: Header, Cover, Title -->
-      <h1 class="notion-title">
-        <Text :value="title" :block="block" />
-      </h1>
-      <div class="notion-page-content">
-        <slot />
+      <!-- Page Cover -->
+      <div v-if="pageCover" class="notion-page-cover-wrapper">
+        <img
+          class="notion-page-cover"
+          :src="pageCover"
+          alt="page cover"
+          :style="{ objectPosition: pageCoverObjectPosition }"
+        />
+      </div>
+
+      <div class="notion-page-scroller">
+        <div
+          :class="
+            cs(
+              'notion-page',
+              pageCover ? 'notion-page-has-cover' : 'notion-page-no-cover',
+              format.page_icon ? 'notion-page-has-icon' : 'notion-page-no-icon'
+            )
+          "
+        >
+          <!-- Page Icon -->
+          <PageIcon v-if="format.page_icon" :block="block" :inline="false" />
+
+          <h1 class="notion-title">
+            <Text :value="title" :block="block" />
+          </h1>
+
+          <div class="notion-page-content">
+            <slot />
+          </div>
+        </div>
       </div>
     </div>
-    <div v-else>
+    <div v-else class="notion-page-content">
       <slot />
     </div>
   </main>
 
-  <!-- Header 1 -->
+  <!-- Header Blocks -->
   <h1
     v-else-if="block.type === 'header'"
     :class="cs('notion-h', 'notion-h1', blockColor, blockId)"
   >
-    <!-- TODO: Anchor link -->
-    <span class="notion-h-title">
-      <Text :value="title" :block="block" />
-    </span>
+    <span class="notion-h-title"><Text :value="title" :block="block" /></span>
   </h1>
 
-  <!-- Header 2 -->
   <h2
     v-else-if="block.type === 'sub_header'"
     :class="cs('notion-h', 'notion-h2', blockColor, blockId)"
   >
-    <span class="notion-h-title">
-      <Text :value="title" :block="block" />
-    </span>
+    <span class="notion-h-title"><Text :value="title" :block="block" /></span>
   </h2>
 
-  <!-- Header 3 -->
   <h3
     v-else-if="block.type === 'sub_sub_header'"
     :class="cs('notion-h', 'notion-h3', blockColor, blockId)"
   >
-    <span class="notion-h-title">
-      <Text :value="title" :block="block" />
-    </span>
+    <span class="notion-h-title"><Text :value="title" :block="block" /></span>
   </h3>
 
   <!-- Text -->
@@ -94,12 +150,9 @@ const title = computed(() => props.block.properties?.title)
     v-else-if="block.type === 'text'"
     :class="cs('notion-text', blockColor, blockId)"
   >
-    <template v-if="title">
-      <Text :value="title" :block="block" />
-    </template>
+    <template v-if="title"><Text :value="title" :block="block" /></template>
     <div v-else class="notion-blank">&nbsp;</div>
     <slot />
-    <!-- Text block can have children (indented blocks) -->
   </div>
 
   <!-- Bullet List -->
@@ -107,11 +160,8 @@ const title = computed(() => props.block.properties?.title)
     v-else-if="block.type === 'bulleted_list'"
     :class="cs('notion-list', 'notion-list-disc', blockId)"
   >
-    <li>
-      <Text :value="title" :block="block" />
-    </li>
+    <li><Text :value="title" :block="block" /></li>
     <slot />
-    <!-- Children are nested lists -->
   </ul>
 
   <!-- Numbered List -->
@@ -119,36 +169,40 @@ const title = computed(() => props.block.properties?.title)
     v-else-if="block.type === 'numbered_list'"
     :class="cs('notion-list', 'notion-list-numbered', blockId)"
   >
-    <li>
-      <Text :value="title" :block="block" />
-    </li>
+    <li><Text :value="title" :block="block" /></li>
     <slot />
   </ol>
+
+  <!-- ToDo (Checkbox) -->
+  <div v-else-if="block.type === 'to_do'" :class="cs('notion-to-do', blockId)">
+    <div class="notion-to-do-item">
+      <div class="notion-to-do-checkbox">
+        <input type="checkbox" :checked="isChecked" readonly />
+      </div>
+      <div
+        :class="cs('notion-to-do-body', isChecked && 'notion-to-do-checked')"
+      >
+        <Text :value="title" :block="block" />
+      </div>
+    </div>
+    <div class="notion-to-do-children"><slot /></div>
+  </div>
 
   <!-- Toggle -->
   <details
     v-else-if="block.type === 'toggle'"
     :class="cs('notion-toggle', blockId)"
   >
-    <summary>
-      <Text :value="title" :block="block" />
-    </summary>
-    <div>
-      <slot />
-    </div>
+    <summary><Text :value="title" :block="block" /></summary>
+    <div><slot /></div>
   </details>
-
-  <!-- Divider -->
-  <hr v-else-if="block.type === 'divider'" :class="cs('notion-hr', blockId)" />
 
   <!-- Quote -->
   <blockquote
     v-else-if="block.type === 'quote'"
     :class="cs('notion-quote', blockColor, blockId)"
   >
-    <div>
-      <Text :value="title" :block="block" />
-    </div>
+    <div><Text :value="title" :block="block" /></div>
     <slot />
   </blockquote>
 
@@ -159,10 +213,72 @@ const title = computed(() => props.block.properties?.title)
       cs('notion-callout', blockColor ? `${blockColor}_co` : undefined, blockId)
     "
   >
-    <!-- TODO: Icon -->
+    <PageIcon :block="block" />
     <div class="notion-callout-text">
       <Text :value="title" :block="block" />
       <slot />
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <hr v-else-if="block.type === 'divider'" :class="cs('notion-hr', blockId)" />
+
+  <!-- Code -->
+  <NotionCode v-else-if="block.type === 'code'" :block="block" />
+
+  <!-- Equation -->
+  <NotionEquation v-else-if="block.type === 'equation'" :block="block" />
+
+  <!-- Assets (Image, Video, etc) -->
+  <Asset
+    v-else-if="
+      [
+        'image',
+        'video',
+        'embed',
+        'figma',
+        'typeform',
+        'gist',
+        'maps',
+        'excalidraw',
+        'codepen',
+        'replit',
+        'pdf'
+      ].includes(block.type)
+    "
+    :block="blockAsBaseContent"
+  >
+    <template v-if="block.properties?.caption">
+      <figcaption class="notion-asset-caption">
+        <Text :value="block.properties.caption" :block="block" />
+      </figcaption>
+    </template>
+  </Asset>
+
+  <!-- Column List -->
+  <div
+    v-else-if="block.type === 'column_list'"
+    :class="cs('notion-row', blockId)"
+  >
+    <slot />
+  </div>
+
+  <!-- Column -->
+  <div
+    v-else-if="block.type === 'column'"
+    :class="cs('notion-column', blockId)"
+    :style="columnStyle"
+  >
+    <slot />
+  </div>
+
+  <!-- Collection Views (Fallback) -->
+  <div v-else-if="block.type === 'collection_view'" class="notion-collection">
+    <!-- Placeholder for collections -->
+    <div class="notion-collection-header">
+      <span class="notion-collection-header-title">
+        Collection: {{ collectionName }}
+      </span>
     </div>
   </div>
 

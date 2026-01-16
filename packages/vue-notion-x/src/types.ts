@@ -10,6 +10,7 @@ export interface NotionComponents {
   Link: any
   PageLink: any
   Checkbox: any
+  Text: any
 
   // Blocks
   Code: any
@@ -37,7 +38,9 @@ export interface NotionContext {
   previewImages: boolean
   showTableOfContents: boolean
   minTableOfContentsItems: number
-  defaultPageIcon: string
-  defaultPageCover: string
+  defaultPageIcon?: string
+  defaultPageCover?: string
   defaultPageCoverPosition: number
+  forceCustomImages: boolean
+  zoom?: any
 }
