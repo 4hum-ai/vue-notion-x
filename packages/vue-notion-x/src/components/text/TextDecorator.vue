@@ -35,8 +35,9 @@ const formattedElement = computed(() => {
       recordMap.block[idToUuid(blockId)]?.value
 
     if (block && block.type === 'external_object_instance') {
-      const url = block.format?.uri || block.format?.original_url
-      const attributes = block.format?.attributes || []
+      const format = block.format as any
+      const url = format?.original_url || format?.uri
+      const attributes = format?.attributes || []
       const titleAttr = attributes.find((a: any) => a.id === 'title')
       const title = titleAttr?.values?.[0] || url
 
