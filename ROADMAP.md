@@ -30,7 +30,7 @@
 - [x] Create .gitignore
 - [x] Create LICENSE file
 
-### Phase 2: Universal Packages (Copy from react-notion-x)
+### Phase 2: Universal Packages
 
 - [x] Copy notion-client package
 - [x] Copy notion-types package
@@ -149,13 +149,4 @@
 
 ---
 
-## 📚 Resources
-
-- [React Notion X](https://github.com/NotionX/react-notion-x) - Original inspiration
-- [Vue 3 Docs](https://vuejs.org/)
-- [Nuxt 3 Docs](https://nuxt.com/)
-
----
-
-**Last Updated**: 2026-01-16 by AI Agent  
 **Project Repository**: https://github.com/4hum-ai/vue-notion-x.git

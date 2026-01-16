@@ -1,8 +1,9 @@
 import vue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
 import vueParser from 'vue-eslint-parser'
+import security from 'eslint-plugin-security'
 
-export default [
+export default tseslint.config(
   {
     ignores: [
       '**/node_modules/**',
@@ -13,12 +14,8 @@ export default [
       '**/.output/**'
     ]
   },
-  // TypeScript files
-  ...tseslint.configs.recommended.map(config => ({
-    ...config,
-    files: ['**/*.ts', '**/*.tsx']
-  })),
-  // Vue files
+  security.configs.recommended,
+  ...tseslint.configs.recommended,
   ...vue.configs['flat/recommended'],
   {
     files: ['**/*.vue'],
@@ -26,21 +23,26 @@ export default [
       parser: vueParser,
       parserOptions: {
         parser: tseslint.parser,
-        ecmaVersion: 2022,
+        extraFileExtensions: ['.vue'],
+        ecmaVersion: 'latest',
         sourceType: 'module'
       }
     }
   },
-  // Common rules for all files
   {
-    plugins: {
-      '@typescript-eslint': tseslint.plugin
-    },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_'
+        }
+      ],
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
       'vue/multi-word-component-names': 'off',
       'vue/require-default-prop': 'off'
     }
   }
-]
+)
