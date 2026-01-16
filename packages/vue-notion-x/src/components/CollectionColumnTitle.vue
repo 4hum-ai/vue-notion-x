@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import type { CollectionPropertySchema } from 'notion-types'
+import type { CollectionPropertySchema } from '@4hum-ai/notion-types'
 
 const props = defineProps<{
   schema: CollectionPropertySchema

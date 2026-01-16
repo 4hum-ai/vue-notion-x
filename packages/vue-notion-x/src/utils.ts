@@ -1,4 +1,4 @@
-import { type BlockMap } from 'notion-types'
+import { type BlockMap } from '@4hum-ai/notion-types'
 
 export {
   formatDate,
@@ -6,7 +6,7 @@ export {
   isUrl,
   uuidToId,
   getTextContent
-} from 'notion-utils'
+} from '@4hum-ai/notion-utils'
 
 export const cs = (
   ...classes: Array<string | undefined | false | null | Record<string, boolean>>

@@ -1,13 +1,13 @@
 // import { promises as fs } from 'fs'
 //import ky, { type Options as OfetchOptions } from 'ky'
 
-import type * as notion from 'notion-types'
+import type * as notion from '@4hum-ai/notion-types'
 import {
   getBlockCollectionId,
   getPageContentBlockIds,
   parsePageId,
   uuidToId
-} from 'notion-utils'
+} from '@4hum-ai/notion-utils'
 import { type FetchOptions as OfetchOptions, ofetch } from 'ofetch'
 import pMap from 'p-map'
 

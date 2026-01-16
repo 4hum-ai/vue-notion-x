@@ -1,4 +1,4 @@
-import type * as types from 'notion-types'
+import type * as types from '@4hum-ai/notion-types'
 
 /**
  * Attempts to find a valid date from a given property.

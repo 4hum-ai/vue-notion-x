@@ -1,4 +1,4 @@
-import type * as types from 'notion-types'
+import type * as types from '@4hum-ai/notion-types'
 
 /**
  * Gets the URLs of all tweets embedded on a page.

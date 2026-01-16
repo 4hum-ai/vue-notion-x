@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Block, BaseContentBlock, PageBlock } from 'notion-types'
+import type { Block, BaseContentBlock, PageBlock } from '@4hum-ai/notion-types'
 import { useNotionContext } from '../context'
 import { cs, uuidToId, getTextContent } from '../utils'
 import Text from './text/Text.vue'

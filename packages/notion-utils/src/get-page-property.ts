@@ -2,7 +2,7 @@ import {
   type Block,
   type DateFormat,
   type ExtendedRecordMap
-} from 'notion-types'
+} from '@4hum-ai/notion-types'
 
 import { getTextContent } from './get-text-content'
 

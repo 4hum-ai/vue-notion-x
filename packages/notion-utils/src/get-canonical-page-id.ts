@@ -1,4 +1,4 @@
-import { type ExtendedRecordMap } from 'notion-types'
+import { type ExtendedRecordMap } from '@4hum-ai/notion-types'
 
 import { getBlockTitle } from './get-block-title'
 import { getPageProperty } from './get-page-property'

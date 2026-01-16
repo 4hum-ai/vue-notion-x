@@ -119,13 +119,13 @@ importers:
 
   examples/nuxt:
     dependencies:
-      notion-client:
+      '@4hum-ai/notion-client':
         specifier: workspace:*
         version: link:../../packages/notion-client
-      notion-types:
+      '@4hum-ai/notion-types':
         specifier: workspace:*
         version: link:../../packages/notion-types
-      notion-utils:
+      '@4hum-ai/notion-utils':
         specifier: workspace:*
         version: link:../../packages/notion-utils
       nuxt:
@@ -150,10 +150,10 @@ importers:
 
   packages/notion-client:
     dependencies:
-      notion-types:
+      '@4hum-ai/notion-types':
         specifier: workspace:*
         version: link:../notion-types
-      notion-utils:
+      '@4hum-ai/notion-utils':
         specifier: workspace:*
         version: link:../notion-utils
       ofetch:
@@ -167,6 +167,9 @@ importers:
 
   packages/notion-utils:
     dependencies:
+      '@4hum-ai/notion-types':
+        specifier: workspace:*
+        version: link:../notion-types
       is-url-superb:
         specifier: 'catalog:'
         version: 6.1.0
@@ -176,15 +179,18 @@ importers:
       normalize-url:
         specifier: 'catalog:'
         version: 8.1.1
-      notion-types:
-        specifier: workspace:*
-        version: link:../notion-types
       p-queue:
         specifier: 'catalog:'
         version: 8.1.1
 
   packages/vue-notion-x:
     dependencies:
+      '@4hum-ai/notion-types':
+        specifier: workspace:*
+        version: link:../notion-types
+      '@4hum-ai/notion-utils':
+        specifier: workspace:*
+        version: link:../notion-utils
       katex:
         specifier: 'catalog:'
         version: 0.16.27
@@ -194,12 +200,6 @@ importers:
       medium-zoom:
         specifier: 'catalog:'
         version: 1.1.0
-      notion-types:
-        specifier: workspace:*
-        version: link:../notion-types
-      notion-utils:
-        specifier: workspace:*
-        version: link:../notion-utils
       prismjs:
         specifier: 'catalog:'
         version: 1.30.0

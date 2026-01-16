@@ -1,4 +1,4 @@
-import { type Block } from 'notion-types'
+import { type Block } from '@4hum-ai/notion-types'
 
 // eslint-disable-next-line security/detect-unsafe-regex
 const GIF_REGEXP = /(?:https?:\/\/)?[^\s]+\.gif(?=$|\?|#)/

@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { getTextContent } from 'notion-utils'
+import { getTextContent } from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import LazyImage from './LazyImage.vue'

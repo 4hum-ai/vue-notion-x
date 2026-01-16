@@ -11,7 +11,7 @@ import type {
   CollectionView,
   CollectionQueryResult,
   PageBlock
-} from 'notion-types'
+} from '@4hum-ai/notion-types'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import Property from './Property.vue'

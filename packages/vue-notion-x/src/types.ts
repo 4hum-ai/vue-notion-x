@@ -1,4 +1,4 @@
-import type { ExtendedRecordMap, Block } from 'notion-types'
+import type { ExtendedRecordMap, Block } from '@4hum-ai/notion-types'
 
 export type MapPageUrlFn = (pageId: string) => string
 export type MapImageUrlFn = (url: string, block: Block) => string

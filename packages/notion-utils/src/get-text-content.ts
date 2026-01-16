@@ -1,4 +1,4 @@
-import type * as types from 'notion-types'
+import type * as types from '@4hum-ai/notion-types'
 
 /**
  * Gets the raw, unformatted text content of a block's content value.

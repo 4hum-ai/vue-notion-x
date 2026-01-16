@@ -7,7 +7,7 @@ export default {
 <script setup lang="ts">
 import { computed } from 'vue'
 import katex from 'katex'
-import { getTextContent } from 'notion-utils'
+import { getTextContent } from '@4hum-ai/notion-utils'
 
 const props = defineProps<{
   block: any

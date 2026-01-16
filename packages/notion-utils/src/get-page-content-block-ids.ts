@@ -1,4 +1,4 @@
-import type * as types from 'notion-types'
+import type * as types from '@4hum-ai/notion-types'
 
 /**
  * Gets the IDs of all blocks contained on a page starting from a root block ID.

@@ -1,4 +1,4 @@
-import { type ExtendedRecordMap, type PageMap } from 'notion-types'
+import { type ExtendedRecordMap, type PageMap } from '@4hum-ai/notion-types'
 import PQueue from 'p-queue'
 
 import { parsePageId } from './parse-page-id'

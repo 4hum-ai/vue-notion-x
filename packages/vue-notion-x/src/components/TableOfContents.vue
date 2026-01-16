@@ -10,7 +10,7 @@ import {
   getPageTableOfContents,
   uuidToId,
   getBlockParentPage
-} from 'notion-utils'
+} from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 

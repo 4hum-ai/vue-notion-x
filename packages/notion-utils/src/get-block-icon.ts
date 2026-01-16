@@ -2,7 +2,7 @@ import {
   type Block,
   type ExtendedRecordMap,
   type PageBlock
-} from 'notion-types'
+} from '@4hum-ai/notion-types'
 
 import { getBlockCollectionId } from './get-block-collection-id'
 

@@ -11,12 +11,12 @@ import type {
   CollectionViewPageBlock,
   PageBlock,
   CollectionView
-} from 'notion-types'
+} from '@4hum-ai/notion-types'
 import {
   getBlockCollectionId,
   getBlockParentPage,
   getTextContent
-} from 'notion-utils'
+} from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import PageIcon from './PageIcon.vue'

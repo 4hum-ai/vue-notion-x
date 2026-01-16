@@ -1,4 +1,4 @@
-import { type Block, type ExtendedRecordMap } from 'notion-types'
+import { type Block, type ExtendedRecordMap } from '@4hum-ai/notion-types'
 
 import { getBlockCollectionId } from './get-block-collection-id'
 import { getTextContent } from './get-text-content'

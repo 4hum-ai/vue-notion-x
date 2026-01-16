@@ -6,8 +6,8 @@ export default {
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import type { CodeBlock } from 'notion-types'
-import { getTextContent } from 'notion-utils'
+import type { CodeBlock } from '@4hum-ai/notion-types'
+import { getTextContent } from '@4hum-ai/notion-utils'
 import Prism from 'prismjs'
 import Text from './text/Text.vue'
 

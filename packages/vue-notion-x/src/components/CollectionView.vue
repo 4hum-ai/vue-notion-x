@@ -10,7 +10,7 @@ import type {
   Collection,
   CollectionView,
   CollectionQueryResult
-} from 'notion-types'
+} from '@4hum-ai/notion-types'
 
 const props = defineProps<{
   collection: Collection

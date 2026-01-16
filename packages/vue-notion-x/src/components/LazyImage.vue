@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import { normalizeUrl } from 'notion-utils'
+import { normalizeUrl } from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 

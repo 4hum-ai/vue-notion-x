@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { getBlockTitle } from 'notion-utils'
+import { getBlockTitle } from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import PageIcon from './PageIcon.vue'

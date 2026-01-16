@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { getPageBreadcrumbs } from 'notion-utils'
+import { getPageBreadcrumbs } from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import PageIcon from './PageIcon.vue'

@@ -6,8 +6,8 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { BaseContentBlock, Block } from 'notion-types'
-import { getTextContent } from 'notion-utils'
+import type { BaseContentBlock, Block } from '@4hum-ai/notion-types'
+import { getTextContent } from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import LazyImage from './LazyImage.vue'
 import { getYoutubeId, getUrlParams } from '../utils'

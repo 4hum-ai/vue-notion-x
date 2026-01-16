@@ -1,4 +1,4 @@
-declare module 'notion-utils' {
+declare module '@4hum-ai/notion-utils' {
   export function getTextContent(value?: any): string
   export function getBlockIcon(block: any, recordMap: any): string | null
   export function getBlockTitle(block: any, recordMap: any): string
@@ -24,7 +24,7 @@ declare module 'notion-utils' {
   ): any[] | null
 }
 
-declare module 'notion-client' {
+declare module '@4hum-ai/notion-client' {
   export class NotionAPI {
     constructor(options?: any)
     getPage(pageId: string, options?: any): Promise<any>

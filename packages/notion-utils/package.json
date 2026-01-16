@@ -1,5 +1,5 @@
 {
-  "name": "notion-utils",
+  "name": "@4hum-ai/notion-utils",
   "version": "0.1.0",
   "type": "module",
   "description": "Useful utilities for working with Notion data. Isomorphic.",
@@ -36,7 +36,7 @@
     "is-url-superb": "catalog:",
     "memoize": "catalog:",
     "normalize-url": "catalog:",
-    "notion-types": "workspace:*",
+    "@4hum-ai/notion-types": "workspace:*",
     "p-queue": "catalog:"
   }
 }

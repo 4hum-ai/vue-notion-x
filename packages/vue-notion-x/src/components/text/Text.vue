@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Decoration } from 'notion-types'
+import type { Decoration } from '@4hum-ai/notion-types'
 import TextDecorator from './TextDecorator.vue'
 
 const props = defineProps<{

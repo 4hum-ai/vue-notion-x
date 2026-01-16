@@ -17,9 +17,9 @@ catalog:
   medium-zoom: ^1.1.0
   memoize: ^10.1.0
   normalize-url: ^8.0.1
-  notion-client: workspace:*
-  notion-types: workspace:*
-  notion-utils: workspace:*
+  '@4hum-ai/notion-client': workspace:*
+  '@4hum-ai/notion-types': workspace:*
+  '@4hum-ai/notion-utils': workspace:*
   npm-run-all2: ^7.0.2
   ofetch: ^1.4.1
   p-map: ^7.0.3

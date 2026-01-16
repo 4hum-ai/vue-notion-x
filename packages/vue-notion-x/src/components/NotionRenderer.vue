@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, toRefs, onMounted } from 'vue'
-import type { ExtendedRecordMap } from 'notion-types'
+import type { ExtendedRecordMap } from '@4hum-ai/notion-types'
 import { provideNotionContext } from '../context'
 import type {
   MapPageUrlFn,

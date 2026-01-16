@@ -1,4 +1,4 @@
-import { type ExtendedRecordMap } from 'notion-types'
+import { type ExtendedRecordMap } from '@4hum-ai/notion-types'
 
 export function mergeRecordMaps(
   recordMapA: ExtendedRecordMap,

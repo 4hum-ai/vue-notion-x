@@ -1,5 +1,5 @@
 {
-  "name": "notion-client",
+  "name": "@4hum-ai/notion-client",
   "version": "0.1.0",
   "type": "module",
   "description": "Robust TypeScript client for the unofficial Notion API.",
@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "ofetch": "catalog:",
-    "notion-types": "workspace:*",
-    "notion-utils": "workspace:*",
+    "@4hum-ai/notion-types": "workspace:*",
+    "@4hum-ai/notion-utils": "workspace:*",
     "p-map": "catalog:"
   }
 }

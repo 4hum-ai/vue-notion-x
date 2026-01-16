@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import { getBlockParentPage, getBlockTitle } from 'notion-utils'
+import { getBlockParentPage, getBlockTitle } from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import PageTitle from './PageTitle.vue'

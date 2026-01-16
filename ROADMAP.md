@@ -103,7 +103,7 @@
 - [ ] Add E2E tests
 - [ ] Optimize bundle size
 - [ ] Publish to npm
-- [ ] Setup CI/CD pipeline
+- [x] Setup CI/CD pipeline
 
 ---
 
@@ -111,8 +111,6 @@
 
 1. **Setup Publication**
    - Prepare for the first alpha release on npm.
-2. **Setup CI/CD**
-   - Configure GitHub Actions for automated building and testing.
 
 ---
 

@@ -1,4 +1,4 @@
-import type * as notion from 'notion-types'
+import type * as notion from '@4hum-ai/notion-types'
 
 export interface SignedUrlRequest {
   permissionRecord: PermissionRecord

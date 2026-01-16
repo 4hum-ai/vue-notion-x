@@ -38,8 +38,8 @@
     "katex": "catalog:",
     "lodash.throttle": "catalog:",
     "medium-zoom": "catalog:",
-    "notion-types": "workspace:*",
-    "notion-utils": "workspace:*",
+    "@4hum-ai/notion-types": "workspace:*",
+    "@4hum-ai/notion-utils": "workspace:*",
     "prismjs": "catalog:"
   },
   "devDependencies": {

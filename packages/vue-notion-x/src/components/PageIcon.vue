@@ -6,8 +6,8 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Block } from 'notion-types'
-import { getBlockIcon, getBlockTitle } from 'notion-utils'
+import type { Block } from '@4hum-ai/notion-types'
+import { getBlockIcon, getBlockTitle } from '@4hum-ai/notion-utils'
 import { useNotionContext } from '../context'
 import { cs, isUrl } from '../utils'
 import LazyImage from './LazyImage.vue'

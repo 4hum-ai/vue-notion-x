@@ -6,7 +6,11 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { PageBlock, Collection, CollectionView } from 'notion-types'
+import type {
+  PageBlock,
+  Collection,
+  CollectionView
+} from '@4hum-ai/notion-types'
 import { useNotionContext } from '../context'
 import { cs } from '../utils'
 import LazyImage from './LazyImage.vue'
