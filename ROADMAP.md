@@ -77,12 +77,12 @@
 
 ### Phase 3 & 4: Advanced Blocks & Refinement
 
-- [ ] Implement Collection components (Gallery, List, Table, Board)
-- [ ] Implement Table of Contents
-- [ ] Implement Breadcrumbs
-- [ ] Implement Bookmark component
+- [x] Implement Collection components (Gallery, List, Table, Board)
+- [x] Implement Table of Contents
+- [x] Implement Breadcrumbs
+- [x] Implement Bookmark component
 - [ ] Implement Modal component
-- [ ] Add Medium Zoom support for images (Integrated in LazyImage, logic in NotionRenderer)
+- [x] Add Medium Zoom support for images (Integrated in LazyImage, logic in NotionRenderer)
 
 ### Phase 5: Documentation
 
@@ -109,13 +109,12 @@
 
 **Immediate Actions Required:**
 
-1. **Implement Collection (Database) components**
-   - Create `Collection.vue` component
-   - Implement `Gallery`, `CollectionView`, etc.
-2. **Implement Table of Contents**
-   - Create `TableOfContents.vue`
+1. **Implement Modal component**
+   - Create `Modal.vue` for expanded card views or other overlays.
+2. **Phase 5: Documentation**
+   - Start writing READMEs for the monorepo and packages.
 3. **Refine Styling**
-   - Ensure Prism and KaTeX styles are easily importable or bundled correctly.
+   - Ensure all recently added components have polished CSS.
 
 ---
 

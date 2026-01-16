@@ -12,9 +12,13 @@ import NotionBlockRenderer from './NotionBlockRenderer.vue'
 import mediumZoom from 'medium-zoom'
 import type { Zoom } from 'medium-zoom'
 
-// Default component implementations (placeholders for now)
 import Text from './text/Text.vue'
 import PageLink from './text/PageLink.vue'
+import Checkbox from './Checkbox.vue'
+import NotionCollection from './Collection.vue'
+import NotionModal from './Modal.vue'
+import NotionHeader from './Header.vue'
+import LazyImage from './LazyImage.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -49,17 +53,17 @@ const props = withDefaults(
 
 // Merge default components with user components
 const mergedComponents = computed<NotionComponents>(() => ({
-  Image: 'img', // TODO: Implement LazyImage
+  Image: LazyImage,
   Link: 'a',
   PageLink: PageLink,
-  Checkbox: 'input', // TODO: Implement Checkbox
-  Code: null, // Lazy load
-  Equation: null, // Lazy load
-  Collection: null,
-  Modal: null,
+  Checkbox: Checkbox,
+  Code: null, // Lazy load via component registration if needed, but currently handled in Block.vue
+  Equation: null,
+  Collection: NotionCollection,
+  Modal: NotionModal,
   Pdf: null,
-  Header: null, // TODO: Implement Header
-  Text: Text, // Add Text component
+  Header: NotionHeader,
+  Text: Text,
   ...props.components
 }))
 

@@ -131,7 +131,8 @@ const youtubeVideoId = computed(() => {
 <template>
   <div v-if="source" :style="style">
     <!-- Image -->
-    <LazyImage
+    <component
+      :is="components.Image"
       v-if="block.type === 'image'"
       :src="src"
       :alt="alt"

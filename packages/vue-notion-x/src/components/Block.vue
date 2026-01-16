@@ -89,6 +89,7 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
     "
   >
     <div v-if="fullPage" class="notion-frame">
+      <component :is="components.Header" :block="block" />
       <!-- Page Cover -->
       <div v-if="pageCover" class="notion-page-cover-wrapper">
         <img

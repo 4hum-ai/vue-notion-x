@@ -28,7 +28,9 @@ const CollectionViewList = defineAsyncComponent(
 const CollectionViewTable = defineAsyncComponent(
   () => import('./CollectionViewTable.vue')
 )
-// const CollectionViewBoard = defineAsyncComponent(() => import('./CollectionViewBoard.vue'))
+const CollectionViewBoard = defineAsyncComponent(
+  () => import('./CollectionViewBoard.vue')
+)
 </script>
 
 <template>
@@ -47,6 +49,12 @@ const CollectionViewTable = defineAsyncComponent(
     />
     <CollectionViewTable
       v-else-if="collectionView.type === 'table'"
+      :collection="collection"
+      :collection-view="collectionView"
+      :collection-data="collectionData"
+    />
+    <CollectionViewBoard
+      v-else-if="collectionView.type === 'board'"
       :collection="collection"
       :collection-view="collectionView"
       :collection-data="collectionData"
