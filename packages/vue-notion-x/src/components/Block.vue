@@ -8,6 +8,7 @@ import PageIcon from './PageIcon.vue'
 import Asset from './Asset.vue'
 import NotionCode from './Code.vue'
 import NotionEquation from './Equation.vue'
+import NotionCollection from './Collection.vue'
 
 const props = defineProps<{
   block: Block
@@ -112,15 +113,37 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
             <Text :value="title" :block="block" />
           </h1>
 
-          <div class="notion-page-content">
-            <slot />
-          </div>
+          <template
+            v-if="
+              block.type === 'collection_view_page' ||
+              (block.type === 'page' && block.parent_table === 'collection')
+            "
+          >
+            <NotionCollection :block="block as any" />
+          </template>
+
+          <template v-if="block.type !== 'collection_view_page'">
+            <div class="notion-page-content">
+              <slot />
+            </div>
+          </template>
         </div>
       </div>
     </div>
-    <div v-else class="notion-page-content">
-      <slot />
-    </div>
+    <template
+      v-if="
+        block.type === 'collection_view_page' ||
+        (block.type === 'page' && block.parent_table === 'collection')
+      "
+    >
+      <NotionCollection :block="block as any" />
+    </template>
+
+    <template v-if="block.type !== 'collection_view_page'">
+      <div class="notion-page-content">
+        <slot />
+      </div>
+    </template>
   </main>
 
   <!-- Header Blocks -->
@@ -272,15 +295,14 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
     <slot />
   </div>
 
-  <!-- Collection Views (Fallback) -->
-  <div v-else-if="block.type === 'collection_view'" class="notion-collection">
-    <!-- Placeholder for collections -->
-    <div class="notion-collection-header">
-      <span class="notion-collection-header-title">
-        Collection: {{ collectionName }}
-      </span>
-    </div>
-  </div>
+  <!-- Collection Views -->
+  <NotionCollection
+    v-else-if="
+      (block.type as string) === 'collection_view' ||
+      (block.type as string) === 'collection_view_page'
+    "
+    :block="block as any"
+  />
 
   <!-- Default Fallback -->
   <div v-else :class="cs('notion-block-fallback', blockId)">

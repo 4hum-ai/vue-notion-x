@@ -9,6 +9,11 @@ declare module 'notion-utils' {
   export function formatDate(date: any, format?: string): string
   export function isUrl(url: string): boolean
   export function formatNotionDateTime(date: any): string
+  export function getBlockCollectionId(
+    block: any,
+    recordMap: any
+  ): string | null
+  export function getBlockParentPage(block: any, recordMap: any): any
 }
 
 declare module 'notion-client' {

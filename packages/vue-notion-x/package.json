@@ -25,7 +25,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "vite build && cp src/styles.css build/styles.css",
+    "build": "vite build && node -e \"const fs = require('fs'); fs.copyFileSync('src/styles.css', 'build/styles.css')\"",
     "dev": "vite build --watch",
     "watch": "vite build --watch",
     "clean": "del build",
