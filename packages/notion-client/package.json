@@ -1,0 +1,35 @@
+{
+  "name": "notion-client",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Robust TypeScript client for the unofficial Notion API.",
+  "repository": "yourusername/vue-notion-x",
+  "author": "Vue Notion X Contributors",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "module": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "build"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "watch": "tsup --watch --silent --onSuccess 'echo build successful'",
+    "clean": "del build",
+    "test": "run-s test:*",
+    "test:lint": "eslint .",
+    "test:typecheck": "tsc --noEmit",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "ofetch": "catalog:",
+    "notion-types": "workspace:*",
+    "notion-utils": "workspace:*",
+    "p-map": "catalog:"
+  }
+}
