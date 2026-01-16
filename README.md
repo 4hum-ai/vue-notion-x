@@ -10,6 +10,8 @@ This project is currently under active development. Star and watch this repo for
 
 ## Features
 
+- 🔍 **Search** - built-in full-text search with `SearchDialog`
+- 🗂️ **Collections** - full support for database views (Gallery, List, Board, Table) including Grouping
 - 🚀 **Simple** - TypeScript + Vue 3
 - ⚡ **Fast** - Optimized rendering with lazy loading
 - 💪 **Smooth** - Full SSR/SSG support with Nuxt 3
@@ -26,7 +28,7 @@ This project is currently under active development. Star and watch this repo for
 
 ## Quick Start
 
-> Coming soon! Package not yet published to npm.
+Check out the [vue-notion-x package](./packages/vue-notion-x/README.md) for installation and usage instructions.
 
 ## Development
 

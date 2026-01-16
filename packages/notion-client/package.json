@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Robust TypeScript client for the unofficial Notion API.",
-  "repository": "yourusername/vue-notion-x",
+  "repository": "4hum-ai/vue-notion-x",
   "author": "Vue Notion X Contributors",
   "license": "MIT",
   "main": "./build/index.js",
