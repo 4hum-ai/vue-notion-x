@@ -90,8 +90,8 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
     "
     :class="
       cs(
-        'notion',
-        'notion-app',
+        // 'notion',
+        // 'notion-app',
         darkMode ? 'dark-mode' : 'light-mode',
         blockId,
         className,
