@@ -13,7 +13,10 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev --concurrency 50 --continue --filter='./packages/*'",
+    "dev": "turbo dev --filter=\"example-*\" --filter=\"@4hum-ai/*\"",
+    "dev:examples": "pnpm --filter example-examples dev",
+    "dev:docs": "pnpm --filter example-docs dev",
+    "start": "pnpm dev",
     "clean": "turbo clean",
     "test": "turbo test",
     "test:format": "prettier --check \"**/*.{js,ts,vue}\"",

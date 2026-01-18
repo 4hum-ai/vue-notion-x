@@ -65,11 +65,13 @@
 - [x] Setup TypeScript types (env.d.ts for missing modules)
 - [x] Configure Vite build process with DTS generation
 
-### Phase 4: Example Applications
+### Phase 4: Example Applications & Infrastructure
 
-- [x] Create Nuxt 3 example
+- [x] Refactor architecture to use `apps/` directory
+- [x] Create Nuxt 3 example (`apps/examples`)
+- [x] Create Documentation app (`apps/docs`)
 - [x] Integrate notion-client in Nuxt server API
-- [x] Verify rendering on localhost:3000
+- [x] Configure multi-app dev environment (Port 3000 & 3001)
 
 ---
 
@@ -90,7 +92,7 @@
 
 - [x] Write main README.md
 - [x] Write package-specific READMEs
-- [ ] Create API documentation
+- [ ] Create API documentation (using `apps/docs`)
 - [ ] Write contributing guide
 
 ---
@@ -119,7 +121,7 @@
 ### Build Tools
 
 - **Package Manager**: pnpm
-- **Monorepo**: Turborepo
+- **Monorepo**: Turborepo (Apps in `apps/*`, Packages in `packages/*`)
 - **Bundler**: Vite (Lib mode) for `vue-notion-x`
 - **Framework**: Vue 3 with Composition API
 
