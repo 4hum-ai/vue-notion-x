@@ -19,6 +19,7 @@ import type * as types from './types'
 export class NotionAPI {
   private readonly _apiBaseUrl: string
   private readonly _authToken?: string
+  private readonly _officialApiToken?: string
   private readonly _activeUser?: string
   private readonly _userTimeZone: string
   private readonly _ofetchOptions?: OfetchOptions
@@ -26,12 +27,16 @@ export class NotionAPI {
   constructor({
     apiBaseUrl = 'https://www.notion.so/api/v3',
     authToken,
+    officialApiToken,
     activeUser,
     userTimeZone = 'America/New_York',
     ofetchOptions
   }: {
     apiBaseUrl?: string
+    /** Browser token_v2 cookie for unofficial API */
     authToken?: string
+    /** Official Notion Integration token (ntn_xxx) for private pages */
+    officialApiToken?: string
     userLocale?: string
     userTimeZone?: string
     activeUser?: string
@@ -39,6 +44,7 @@ export class NotionAPI {
   } = {}) {
     this._apiBaseUrl = apiBaseUrl
     this._authToken = authToken
+    this._officialApiToken = officialApiToken
     this._activeUser = activeUser
     this._userTimeZone = userTimeZone
     this._ofetchOptions = ofetchOptions
@@ -56,6 +62,7 @@ export class NotionAPI {
       throwOnCollectionErrors = false,
       collectionReducerLimit = 999,
       fetchRelationPages = false,
+      useOfficialApi,
       ofetchOptions
     }: {
       concurrency?: number
@@ -67,9 +74,24 @@ export class NotionAPI {
       throwOnCollectionErrors?: boolean
       collectionReducerLimit?: number
       fetchRelationPages?: boolean
+      /** Force using Official Notion API (requires officialApiToken) */
+      useOfficialApi?: boolean
       ofetchOptions?: OfetchOptions
     } = {}
   ): Promise<notion.ExtendedRecordMap> {
+    // Auto-detect: use official API if token provided and no unofficial auth
+    const shouldUseOfficialApi =
+      useOfficialApi ?? (!!this._officialApiToken && !this._authToken)
+
+    if (shouldUseOfficialApi) {
+      if (!this._officialApiToken) {
+        throw new Error(
+          'Official API token required. Pass officialApiToken to constructor.'
+        )
+      }
+      return this.getPageWithOfficialApi(pageId, { concurrency, ofetchOptions })
+    }
+
     const page = await this.getPageRaw(pageId, {
       chunkLimit,
       chunkNumber,
@@ -778,5 +800,380 @@ export class NotionAPI {
       headers
     })
     return res
+  }
+
+  /**
+   * Fetch page content using Official Notion API (for private/integration pages).
+   * Converts Official API block format to ExtendedRecordMap for NotionRenderer compatibility.
+   */
+  public async getPageWithOfficialApi(
+    pageId: string,
+    {
+      concurrency = 3,
+      ofetchOptions
+    }: {
+      concurrency?: number
+      ofetchOptions?: OfetchOptions
+    } = {}
+  ): Promise<notion.ExtendedRecordMap> {
+    const parsedPageId = parsePageId(pageId)
+    if (!parsedPageId) {
+      throw new Error(`invalid notion pageId "${pageId}"`)
+    }
+
+    // Initialize empty record map
+    const recordMap: notion.ExtendedRecordMap = {
+      block: {},
+      collection: {},
+      collection_view: {},
+      collection_query: {},
+      notion_user: {},
+      signed_urls: {}
+    }
+
+    // Fetch page properties first
+    const pageData = await this.fetchOfficialApi<any>({
+      endpoint: `pages/${parsedPageId}`,
+      method: 'GET',
+      ofetchOptions
+    })
+
+    // Create root block from page data
+    const rootBlock = this.convertPageToBlock(pageData, parsedPageId)
+    recordMap.block[parsedPageId] = { value: rootBlock, role: 'reader' }
+
+    // Fetch all child blocks recursively
+    await this.fetchBlockChildrenRecursive(
+      parsedPageId,
+      recordMap,
+      concurrency,
+      0,
+      ofetchOptions
+    )
+
+    return recordMap
+  }
+
+  /**
+   * Recursively fetch block children using Official API
+   */
+  private async fetchBlockChildrenRecursive(
+    blockId: string,
+    recordMap: notion.ExtendedRecordMap,
+    concurrency: number,
+    depth: number,
+    ofetchOptions?: OfetchOptions
+  ): Promise<void> {
+    if (depth > 5) return // Prevent infinite recursion
+
+    let cursor: string | undefined
+
+    do {
+      const params = new URLSearchParams({ page_size: '100' })
+      if (cursor) params.set('start_cursor', cursor)
+
+      const response = await this.fetchOfficialApi<{
+        results: any[]
+        has_more: boolean
+        next_cursor: string | null
+      }>({
+        endpoint: `blocks/${blockId}/children?${params.toString()}`,
+        method: 'GET',
+        ofetchOptions
+      })
+
+      // Process each block
+      const childIds: string[] = []
+      for (const block of response.results) {
+        const convertedBlock = this.convertOfficialBlock(block)
+        recordMap.block[block.id] = { value: convertedBlock, role: 'reader' }
+        childIds.push(block.id)
+
+        // Track children for parent block
+        if (recordMap.block[blockId]?.value) {
+          const parent = recordMap.block[blockId].value as any
+          if (!parent.content) parent.content = []
+          parent.content.push(block.id)
+        }
+      }
+
+      // Recursively fetch children for blocks that have them
+      await pMap(
+        response.results.filter(b => b.has_children),
+        async block => {
+          await this.fetchBlockChildrenRecursive(
+            block.id,
+            recordMap,
+            concurrency,
+            depth + 1,
+            ofetchOptions
+          )
+        },
+        { concurrency }
+      )
+
+      cursor = response.has_more
+        ? (response.next_cursor ?? undefined)
+        : undefined
+    } while (cursor)
+  }
+
+  /**
+   * Convert Official API page to block format
+   */
+  private convertPageToBlock(page: any, pageId: string): notion.Block {
+    const title = this.extractTitleFromProperties(page.properties)
+
+    return {
+      id: pageId,
+      type: 'page',
+      version: 1,
+      created_time: new Date(page.created_time).getTime(),
+      last_edited_time: new Date(page.last_edited_time).getTime(),
+      parent_id: page.parent?.page_id || page.parent?.database_id || '',
+      parent_table:
+        page.parent?.type === 'database_id' ? 'collection' : 'space',
+      alive: true,
+      properties: {
+        title: title ? [[title]] : []
+      },
+      format: {
+        page_icon: page.icon?.emoji || page.icon?.external?.url,
+        page_cover: page.cover?.external?.url || page.cover?.file?.url
+      },
+      content: []
+    } as unknown as notion.Block
+  }
+
+  /**
+   * Convert Official API block to unofficial format
+   */
+  private convertOfficialBlock(block: any): notion.Block {
+    const baseBlock = {
+      id: block.id,
+      version: 1,
+      created_time: new Date(block.created_time).getTime(),
+      last_edited_time: new Date(block.last_edited_time).getTime(),
+      parent_id: block.parent?.page_id || block.parent?.block_id || '',
+      parent_table: 'block' as const,
+      alive: true,
+      content: block.has_children ? [] : undefined
+    }
+
+    const blockData = block[block.type]
+
+    switch (block.type) {
+      case 'paragraph':
+        return {
+          ...baseBlock,
+          type: 'text',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'heading_1':
+        return {
+          ...baseBlock,
+          type: 'header',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'heading_2':
+        return {
+          ...baseBlock,
+          type: 'sub_header',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'heading_3':
+        return {
+          ...baseBlock,
+          type: 'sub_sub_header',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'bulleted_list_item':
+        return {
+          ...baseBlock,
+          type: 'bulleted_list',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'numbered_list_item':
+        return {
+          ...baseBlock,
+          type: 'numbered_list',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'quote':
+        return {
+          ...baseBlock,
+          type: 'quote',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'code':
+        return {
+          ...baseBlock,
+          type: 'code',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text),
+            language: [[blockData?.language || 'plain text']]
+          }
+        } as unknown as notion.Block
+
+      case 'callout':
+        return {
+          ...baseBlock,
+          type: 'callout',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          },
+          format: {
+            page_icon: blockData?.icon?.emoji
+          }
+        } as unknown as notion.Block
+
+      case 'divider':
+        return {
+          ...baseBlock,
+          type: 'divider'
+        } as unknown as notion.Block
+
+      case 'image':
+        const imgUrl = blockData?.file?.url || blockData?.external?.url
+        return {
+          ...baseBlock,
+          type: 'image',
+          properties: {
+            source: imgUrl ? [[imgUrl]] : [],
+            caption: this.convertRichText(blockData?.caption)
+          },
+          format: {
+            display_source: imgUrl
+          }
+        } as unknown as notion.Block
+
+      case 'video':
+        const videoUrl = blockData?.file?.url || blockData?.external?.url
+        return {
+          ...baseBlock,
+          type: 'video',
+          properties: {
+            source: videoUrl ? [[videoUrl]] : []
+          },
+          format: {
+            display_source: videoUrl
+          }
+        } as unknown as notion.Block
+
+      case 'toggle':
+        return {
+          ...baseBlock,
+          type: 'toggle',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text)
+          }
+        } as unknown as notion.Block
+
+      case 'to_do':
+        return {
+          ...baseBlock,
+          type: 'to_do',
+          properties: {
+            title: this.convertRichText(blockData?.rich_text),
+            checked: blockData?.checked ? [['Yes']] : [['No']]
+          }
+        } as unknown as notion.Block
+
+      default:
+        return {
+          ...baseBlock,
+          type: block.type
+        } as unknown as notion.Block
+    }
+  }
+
+  /**
+   * Convert Official API rich_text to unofficial format
+   */
+  private convertRichText(richText: any[]): notion.Decoration[] {
+    if (!richText || !Array.isArray(richText)) return []
+
+    return richText.map(item => {
+      const decorations: any[] = []
+
+      if (item.annotations?.bold) decorations.push(['b'])
+      if (item.annotations?.italic) decorations.push(['i'])
+      if (item.annotations?.strikethrough) decorations.push(['s'])
+      if (item.annotations?.underline) decorations.push(['_'])
+      if (item.annotations?.code) decorations.push(['c'])
+      if (item.href) decorations.push(['a', item.href])
+
+      if (decorations.length === 0) {
+        return [item.plain_text || '']
+      }
+
+      return [item.plain_text || '', decorations]
+    }) as notion.Decoration[]
+  }
+
+  /**
+   * Extract title from Official API page properties
+   */
+  private extractTitleFromProperties(properties: any): string {
+    if (!properties) return ''
+
+    for (const key of Object.keys(properties)) {
+      const prop = properties[key]
+      if (prop.type === 'title' && prop.title?.length > 0) {
+        return prop.title.map((t: any) => t.plain_text || '').join('')
+      }
+    }
+    return ''
+  }
+
+  /**
+   * Fetch from Official Notion API
+   */
+  private async fetchOfficialApi<T>({
+    endpoint,
+    method = 'GET',
+    body,
+    ofetchOptions
+  }: {
+    endpoint: string
+    method?: 'GET' | 'POST'
+    body?: object
+    ofetchOptions?: OfetchOptions
+  }): Promise<T> {
+    const url = `https://api.notion.com/v1/${endpoint}`
+
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${this._officialApiToken}`,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json'
+    }
+
+    return ofetch(url, {
+      method,
+      body: method === 'POST' ? body : undefined,
+      headers,
+      responseType: 'json'
+    }) as Promise<T>
   }
 }

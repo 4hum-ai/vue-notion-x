@@ -21,8 +21,15 @@ const props = defineProps<{
   hideBlockId?: boolean
 }>()
 
-const { components, mapPageUrl, mapImageUrl, fullPage, darkMode, recordMap } =
-  useNotionContext()
+const {
+  components,
+  mapPageUrl,
+  mapImageUrl,
+  fullPage,
+  darkMode,
+  recordMap,
+  hideHeader
+} = useNotionContext()
 
 const blockId = computed(() =>
   props.hideBlockId
@@ -94,7 +101,7 @@ const blockAsBaseContent = computed(() => props.block as BaseContentBlock)
     "
   >
     <div v-if="fullPage" class="notion-frame">
-      <component :is="components.Header" :block="block" />
+      <component v-if="!hideHeader" :is="components.Header" :block="block" />
       <!-- Page Cover -->
       <div v-if="pageCover" class="notion-page-cover-wrapper">
         <img

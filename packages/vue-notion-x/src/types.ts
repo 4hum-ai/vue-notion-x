@@ -43,4 +43,5 @@ export interface NotionContext {
   defaultPageCoverPosition: number
   forceCustomImages: boolean
   zoom?: any
+  hideHeader?: boolean
 }

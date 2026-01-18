@@ -37,6 +37,7 @@ const props = withDefaults(
     defaultPageCover?: string
     defaultPageCoverPosition?: number
     isImageZoomable?: boolean
+    hideHeader?: boolean
   }>(),
   {
     fullPage: false,
@@ -45,7 +46,8 @@ const props = withDefaults(
     defaultPageCoverPosition: 0.5,
     mapPageUrl: (pageId: string) => `/${pageId}`,
     mapImageUrl: (url: string, block: Block) =>
-      defaultMapImageUrl(url, block) || url
+      defaultMapImageUrl(url, block) || url,
+    hideHeader: false
   }
 )
 
@@ -90,7 +92,8 @@ provideNotionContext({
   defaultPageCover: props.defaultPageCover,
   defaultPageCoverPosition: props.defaultPageCoverPosition || 0.5,
   forceCustomImages: !!props.components?.Image,
-  zoom: zoom
+  zoom: zoom,
+  hideHeader: props.hideHeader
 })
 </script>
 

@@ -5,8 +5,8 @@
 ## 📍 Current Status
 
 **Project Phase**: 🏗️ **Phase 4: Advanced Features & Refinement**  
-**Last Updated**: 2026-01-16  
-**Version**: 0.1.0
+**Last Updated**: 2026-01-18  
+**Version**: 0.2.2
 
 ---
 
@@ -144,8 +144,8 @@
 
 | Package       | Current Version | Status      |
 | ------------- | --------------- | ----------- |
-| vue-notion-x  | 0.1.0           | Local Build |
-| notion-client | 0.1.0           | Local Build |
+| vue-notion-x  | 0.2.2           | Local Build |
+| notion-client | 0.2.2           | Local Build |
 | notion-types  | 0.1.0           | Local Build |
 | notion-utils  | 0.1.0           | Local Build |
 

@@ -83,7 +83,7 @@ const style = computed(() => {
 
 const assetStyle = computed(() => {
   const s: any = {}
-  if (props.block.type === 'image') {
+  if (props.block.type === 'image' || isEmbedImage.value) {
     s.objectFit = 'cover'
   } else if (props.block.format?.block_preserve_scale) {
     s.objectFit = 'contain'
@@ -103,8 +103,16 @@ const source = computed(() => {
   return src
 })
 
+const isEmbedImage = computed(() => {
+  if (props.block.type === 'embed' && source.value) {
+    const s = source.value.toLowerCase()
+    return /\.(jpeg|jpg|gif|png|webp|svg)($|\?)/.test(s)
+  }
+  return false
+})
+
 const src = computed(() => {
-  if (props.block.type === 'image' && source.value) {
+  if ((props.block.type === 'image' || isEmbedImage.value) && source.value) {
     let s = source.value
     if (!s.includes('.gif') && s.includes('file.notion.so')) {
       s = props.block.properties?.source?.[0]?.[0]
@@ -133,7 +141,7 @@ const youtubeVideoId = computed(() => {
     <!-- Image -->
     <component
       :is="components.Image"
-      v-if="block.type === 'image'"
+      v-if="block.type === 'image' || isEmbedImage"
       :src="src"
       :alt="alt"
       :zoomable="zoomable"
