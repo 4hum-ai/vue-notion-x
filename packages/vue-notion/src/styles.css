@@ -3229,13 +3229,48 @@ svg.notion-page-icon {
   cursor: zoom-in;
 }
 
-/* Fix image preview layering */
-.vel-modal,
-.viewer-container,
-.medium-zoom-overlay {
-  background-color: rgba(0, 0, 0, 0.9) !important;
-  backdrop-filter: blur(8px);
+/* Fix image preview layering and premium UI for vue-easy-lightbox (vel-modal) */
+.vel-modal {
+  background-color: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(12px);
   z-index: 10000 !important;
+}
+
+.vel-img {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+/* Premium Glassmorphism Buttons */
+.vel-modal .btn__prev,
+.vel-modal .btn__next,
+.vel-modal .btn__close,
+.vel-modal .toolbar-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  transition: all 0.2s ease-in-out !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.vel-modal .btn__prev:hover,
+.vel-modal .btn__next:hover,
+.vel-modal .btn__close:hover,
+.vel-modal .toolbar-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.1);
+}
+
+.vel-modal .vel-toolbar {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 30px !important;
+  padding: 8px 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Utility to hide duplicated title when using with custom headers */

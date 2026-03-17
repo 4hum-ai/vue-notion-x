@@ -10,8 +10,8 @@ import type {
   NotionComponents
 } from '../types'
 import NotionBlockRenderer from './NotionBlockRenderer.vue'
-import mediumZoom from 'medium-zoom'
-import type { Zoom } from 'medium-zoom'
+// import mediumZoom from 'medium-zoom'
+// import type { Zoom } from 'medium-zoom'
 
 import Text from './text/Text.vue'
 import PageLink from './text/PageLink.vue'
@@ -69,20 +69,12 @@ const mergedComponents = computed<NotionComponents>(() => ({
   ...props.components
 }))
 
-// Setup Medium Zoom
-let zoom: Zoom | null = null
+// Setup Zoom (Disabled in favor of VueEasyLightbox to avoid layered images)
+const zoom = null
 const isMounted = ref(false)
 onMounted(() => {
   isMounted.value = true
 })
-
-if (props.isImageZoomable && typeof window !== 'undefined') {
-  zoom = mediumZoom({
-    background: 'rgba(0, 0, 0, 0.8)',
-    margin: 24
-  })
-}
-
 // Lightbox state
 const lightboxVisible = ref(false)
 const lightboxIndex = ref(0)
@@ -142,7 +134,7 @@ provideNotionContext({
 </script>
 
 <template>
-  <NotionBlockRenderer :level="0" :zoom="isImageZoomable ? zoom : null" />
+  <NotionBlockRenderer :level="0" :zoom="null" />
   <VueEasyLightbox
     v-if="isMounted"
     :visible="lightboxVisible"
