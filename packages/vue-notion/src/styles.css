@@ -3225,4 +3225,21 @@ svg.notion-page-icon {
 .notion-nav-cta:hover {
   background: #df4c4c;
 }
-.zoom-in { cursor: zoom-in; }
+.zoom-in {
+  cursor: zoom-in;
+}
+
+/* Fix image preview layering */
+.vel-modal,
+.viewer-container,
+.medium-zoom-overlay {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  backdrop-filter: blur(8px);
+  z-index: 10000 !important;
+}
+
+/* Utility to hide duplicated title when using with custom headers */
+.notion-hide-title .notion-title,
+.notion-hide-title .notion-page-header-wrapper {
+  display: none !important;
+}
